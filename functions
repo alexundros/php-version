@@ -1,0 +1,79 @@
+if [ -z "$DIR" ] ; then
+  exit 1
+fi
+
+ARGS(){
+  for val in "$@"; do
+    if [ "${val:0:1}" == "-" ]; then
+      key=${val:1}
+    else
+      if ! [ -z "$key" ] ; then
+        declare $key="$val"
+        unset key
+      fi
+    fi
+  done
+}
+
+GET_PHP(){
+  local ver=$1
+  local file=$2
+  local link=$3
+  if [ -z "$link" ] ; then
+    echo 'http://php.net/releases/...'
+    link=$(curl http://php.net/releases/|grep $ver.tar.bz2|cut -d '"' -f2)
+  fi
+  if [ -z "$link" ] ; then
+    echo 'http://php.net/downloads.php...'
+    link=$(curl http://php.net/downloads.php|grep $ver.tar.bz2|cut -d '"' -f2)
+  fi
+  if [ -z "$link" ] ; then
+    echo "PHP ${ver} not found"
+    echo 'Please check correct version!'
+    exit $ERR_FN
+  fi
+  link="http://php.net"$link
+  local links=$(curl $link|grep $ver.tar.bz2|cut -d '"' -f4)
+  for link in $links; do
+    wget --no-check-certificate -O $file $link
+    if [ -f $file ]; then
+      break
+    fi
+  done
+  if ! [ -f $file ]; then
+    echo "$file Not Found"
+    exit $ERR_FN
+  fi
+  return 0
+}
+
+CFG_PHP(){
+  local opt=$1'/options-'$2
+  local dst='./options'
+  if ! [ -f $opt ]; then
+    opt=$DIR'/options'
+  fi
+  cp $opt $dst
+  sed -i -e 's/{ver}/'$2'/g' $dst
+  bash $dst $3 $4
+  if ! [ $? -eq 0 ] ; then
+    echo 'CONFIGURE?!'
+    exit $ERR_FN
+  fi
+  return 0
+}
+
+MAKE_PHP(){
+  local ver=$1
+  local src=$2
+  local dst=$3
+  cd $src
+  CFG_PHP $src $ver
+  make
+  make install
+  if ! [ -f $dst'/bin/php-cgi' ] ; then
+   echo 'Error?!'
+   exit $ERR_FN
+  fi
+  return 0
+}

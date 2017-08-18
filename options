@@ -1,0 +1,12 @@
+./configure \
+--prefix=${1:-'/opt/php/7.0.17'} \
+--with-config-file-path=${2:-'/opt/php/7.0.17/etc'} \
+--with-curl \
+--with-mhash \
+--with-mysql \
+--with-mysqli \
+--with-gd \
+--with-pdo-mysql \
+--with-mcrypt \
+--with-openssl \
+--with-pcre-regex \
