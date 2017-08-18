@@ -1,6 +1,4 @@
 # php-version
-----------
-**Tested:**
 
 - **Ubuntu:** 16.04 LTS
 - **PHP versions:** <br> 
