@@ -1,6 +1,4 @@
-if [ -z "$DIR" ] ; then
-  exit 1
-fi
+#Functions for bash
 
 ARGS(){
   for val in "$@"; do
