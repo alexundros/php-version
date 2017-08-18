@@ -60,5 +60,4 @@ for ver in $VERS; do
   echo 'PHP ver. '$ver' installed'
   echo 'Installed in path: '$dst
 done
-
 exit 0
