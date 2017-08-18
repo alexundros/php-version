@@ -9,4 +9,4 @@
 --with-pdo-mysql \
 --with-mcrypt \
 --with-openssl \
---with-pcre-regex
+--with-pcre-regex \
