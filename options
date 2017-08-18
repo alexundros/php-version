@@ -1,6 +1,6 @@
 ./configure \
---prefix=${1:-'/opt/php/7.0.17'} \
---with-config-file-path=${2:-'/opt/php/7.0.17/etc'} \
+--prefix=${1:-'/opt/php/{ver}'} \
+--with-config-file-path=${2:-'/opt/php/{ver}/etc'} \
 --with-curl \
 --with-mhash \
 --with-mysql \

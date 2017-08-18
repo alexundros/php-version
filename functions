@@ -46,8 +46,8 @@ GET_PHP(){
 }
 
 CFG_PHP(){
-  local opt=$1'/options-'$2
-  local dst='./options'
+  local opt=$SRC_DIR'/options-'$2
+  local dst=$1'/options'
   if ! [ -f $opt ]; then
     opt=$DIR'/options'
   fi
